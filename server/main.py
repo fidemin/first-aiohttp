@@ -1,21 +1,20 @@
 import argparse
 
 from aiohttp import web
-import yaml
 
 from routes import setup_routes
-
-def read_config(path):
-    with open(path) as f:
-        config = yaml.safe_load(f)
-    return config
+from settings import read_config
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', help='config file path')
 args = parser.parse_args()
-config = read_config(args.config)
+config = None
+
+if args.config:
+    config = read_config(args.config)
 
 app = web.Application()
 setup_routes(app)
-app['config'] = config
+if config:
+    app['config'] = config
 web.run_app(app)

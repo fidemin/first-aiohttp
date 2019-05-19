@@ -1,3 +1,5 @@
+import aiomysql
+from aiomysql.sa import create_engine
 
 from sqlalchemy import (
     MetaData, Table, Column, ForeignKey,
@@ -25,3 +27,23 @@ choice = Table(
            Integer,
            ForeignKey('question.id', ondelete='CASCADE'))
 )
+
+async def init_mysql(app):
+    conf = app['config']['mysql']
+    engine = await create_engine(
+        db=conf['database'],
+        user=conf['user'],
+        password=conf['password'],
+        host=conf['host'],
+        port=conf['port'],
+        minsize=conf['minsize'],
+        maxsize=conf['maxsize'],
+        echo=True,
+    )
+    app['db'] = engine
+
+
+async def close_mysql(app):
+    db = app['db']
+    db.close()
+    await app['db'].wait_closed()

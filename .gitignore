@@ -105,6 +105,7 @@ venv.bak/
 
 # config
 config.yaml
+docker.config.yaml
 
 #vim
 *.swp

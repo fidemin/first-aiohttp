@@ -1,4 +1,5 @@
 import argparse
+import logging
 import sys
 
 from aiohttp import web
@@ -25,4 +26,5 @@ if __name__ == '__main__':
     app['config'] = config
     app.on_startup.append(init_mysql)
     app.on_cleanup.append(close_mysql)
+    logging.basicConfig(level=logging.DEBUG)
     web.run_app(app)

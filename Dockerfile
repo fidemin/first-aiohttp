@@ -7,4 +7,4 @@ WORKDIR /home/yhmin/first-aiohttp
 RUN pip3 install -r requirements.txt
 RUN mkdir config
 COPY ./config/docker.config.yaml config/config.yaml
-CMD ./bin/entrypoint.sh
+CMD git pull && ./bin/entrypoint.sh
